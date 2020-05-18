@@ -1,0 +1,6 @@
+[submodule "riss"]
+	path = riss
+	url = https://github.com/conp-solutions/riss.git
+[submodule "sharpSAT"]
+	path = sharpSAT
+	url = https://github.com/marcthurley/sharpSAT.git
