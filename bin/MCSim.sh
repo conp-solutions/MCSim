@@ -80,6 +80,7 @@ TMPDIR="$(mktemp -d)"
 # prepend everything with a 'c ' to turn it into a comment
 echo "c starting model counter with simplifier with logging ..."
 "$SCRIPT_DIR"/coprocessor-for-modelcounting.sh \
+    -F \
     -c "$SCRIPT_DIR"/coprocessor "$INPUT" \
     "$SCRIPT_DIR"/sharpSAT |& tee "$TMPDIR"/cfm-output.log | sed -e 's/^/c /' 
 # Copy exit codes
