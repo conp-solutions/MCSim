@@ -29,11 +29,22 @@ popd
 
 # Build sharpSAT, and copy it to bin/
 pushd sharpSAT
+
+# Compile sharpSAT statically
+cp CMakeLists.txt CMakeLists.txt.orig
+echo 'SET(CMAKE_EXE_LINKER_FLAGS "-static")' > CMakeLists.txt
+cat CMakeLists.txt.orig >> CMakeLists.txt
+
 mkdir -p Release
 cd Release/
 cmake -DCMAKE_BUILD_TYPE=Release ..
 make -j $(nproc)
 cp sharpSAT "$BIN_PATH"
+cd ..
+
+# Restore original cmake file
+cp CMakeLists.txt.orig CMakeLists.txt
+
 popd
 
 # Signal success
