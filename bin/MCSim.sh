@@ -47,16 +47,7 @@ do
     fi
 done
 
-declare -r INPUT="$1"
-
-# Check for parameter
-if [ ! -r "$INPUT" ]
-then
-    echo "Failed to read input file $INPUT"
-    echo "Abort"
-    usage
-    exit 1
-fi
+INPUT="$1"
 
 TMPDIR=""
 
@@ -75,6 +66,15 @@ print_header
 # Get a temporary directory, and make sure we clean up
 trap cleanup EXIT
 TMPDIR="$(mktemp -d)"
+
+# Check for parameter
+if [ ! -r "$INPUT" ]
+then
+    echo "Failed to read input file $INPUT"
+    echo "Try to read from stdin"
+    cat /dev/stdin > "$TMPDIR"/input.cnf
+    INPUT="$TMPDIR"/input.cnf
+fi
 
 # Activate THP, in case binaries support it
 export GLIBC_THP_ALWAYS=1
