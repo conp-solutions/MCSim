@@ -76,6 +76,9 @@ print_header
 trap cleanup EXIT
 TMPDIR="$(mktemp -d)"
 
+# Activate THP, in case binaries support it
+export GLIBC_THP_ALWAYS=1
+
 # Execute tool combination, log to cfm-output.log, and before writing to stdout,
 # prepend everything with a 'c ' to turn it into a comment
 echo "c starting model counter with simplifier with logging ..."
