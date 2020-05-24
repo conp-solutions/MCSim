@@ -76,6 +76,11 @@ then
     INPUT="$TMPDIR"/input.cnf
 fi
 
+# Check whether input is weighted, or zipped weighted
+WEIGHTED=false
+[[ "$INPUT" =~ ".wcnf"$ ]] && WEIGHTED=true
+[[ "$INPUT" =~ ".wcnf.gz"$ ]] && WEIGHTED=true
+
 # Activate THP, in case binaries support it
 export GLIBC_THP_ALWAYS=1
 
@@ -102,9 +107,14 @@ fi
 # Extract solution from file
 SOLUTIONS=$(grep -A 1 '^# solutions' "$TMPDIR"/cfm-output.log | tail -n 1)
 
-# Print number of solutions for model counting competition
+# Print (weighted) number of solutions for model counting competition
 echo "c"
-echo "s mc $SOLUTIONS"
+if [ "$WEIGHTED" = "true" ]
+then
+    echo "s wmc $SOLUTIONS"
+else
+    echo "s mc $SOLUTIONS"
+fi
 
 # Signal success
 exit 0
